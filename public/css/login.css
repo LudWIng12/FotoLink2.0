@@ -1,1 +1,43 @@
-hackerawacha
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background-color: #007bff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box input[type="submit"],
+.login-box input[type="button"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-box input[type="submit"],
+.login-box input[type="button"] {
+    background-color: #ffffff;
+    color: #000000;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-box input[type="submit"]:hover,
+.login-box input[type="button"]:hover {
+    background-color: #e0e0e0;
+}
