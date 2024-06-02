@@ -2,10 +2,23 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Administrador</title>
+    <title>Admin - FotoLink</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-    <h1>Bienvenido Administrador</h1>
-    <!-- Contenido para el administrador -->
+    <div class="container">
+        <div class="welcome">Bienvenido: "Nombre del Administrador"</div>
+        <div class="grid-container">
+            <button class="button" onclick="window.location.href='/admins'">Admins</button>
+            <button class="button" onclick="window.location.href='/empleados'">Empleados</button>
+            <button class="button" onclick="window.location.href='/usuarios'">Usuarios</button>
+            <button class="button" onclick="window.location.href='/ordenes'">Ordenes</button>
+            <button class="button" onclick="window.location.href='/trabajo_pendiente'">Trabajo Pendiente</button>
+            <button class="button" onclick="window.location.href='/historial'">Historial</button>
+            <button class="button" onclick="window.location.href='/facturacion'">Facturacion</button>
+            <button class="button" onclick="window.location.href='/analitica'">Analitica</button>
+        </div>
+    </div>
 </body>
 </html>

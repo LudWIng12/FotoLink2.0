@@ -2,10 +2,17 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Usuario</title>
+    <title>Usuario - FotoLink</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/usuario.css">
 </head>
 <body>
-    <h1>Bienvenido Usuario</h1>
-    <!-- Contenido para el usuario -->
+    <div class="container">
+        <div class="welcome">Bienvenido: "Nombre del Usuario"</div>
+        <div class="grid-container">
+            <button class="button" onclick="window.location.href='/ordenes'">Ordenes</button>
+            <button class="button" onclick="window.location.href='/facturacion'">Facturacion</button>
+        </div>
+    </div>
 </body>
 </html>

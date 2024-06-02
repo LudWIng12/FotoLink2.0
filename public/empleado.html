@@ -2,10 +2,19 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Empleado</title>
+    <title>Empleado - FotoLink</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/empleado.css">
 </head>
 <body>
-    <h1>Bienvenido Empleado</h1>
-    <!-- Contenido para el empleado -->
+    <div class="container">
+        <div class="welcome">Bienvenido: "Nombre del Empleado"</div>
+        <div class="grid-container">
+            <button class="button" onclick="window.location.href='/ordenes'">Ordenes</button>
+            <button class="button" onclick="window.location.href='/trabajo_pendiente'">Trabajo Pendiente</button>
+            <button class="button" onclick="window.location.href='/historial'">Historial</button>
+            <button class="button" onclick="window.location.href='/facturacion'">Facturacion</button>
+        </div>
+    </div>
 </body>
 </html>
