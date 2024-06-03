@@ -1,0 +1,90 @@
+.crud-container {
+    width: 80%;
+    margin: auto;
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.crud-form {
+    margin-bottom: 20px;
+}
+
+.crud-form input, .crud-form select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.crud-form button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.crud-form button:hover {
+    background-color: #0056b3;
+}
+
+.crud-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.crud-table th, .crud-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.crud-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.crud-table td {
+    color: white;
+}
+
+.crud-table .actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.crud-table .actions button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.crud-table .actions button:hover {
+    color: #0056b3;
+}
+
+.role-buttons {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.role-buttons button {
+    background-color: #007bff;
+    border: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.role-buttons button:hover {
+    background-color: #0056b3;
+}

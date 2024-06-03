@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD Empleado - FotoLink</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/crud.css">
+</head>
+<body>
+    <div class="crud-container">
+        <h2>Gestionar Empleados</h2>
+        <form id="crudForm" class="crud-form">
+            <input type="hidden" id="id" name="id">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required><br>
+            <input type="email" id="correo" name="correo" placeholder="Correo" required><br>
+            <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required><br>
+            <input type="text" id="direccion" name="direccion" placeholder="Dirección"><br>
+            <input type="text" id="telefono" name="telefono" placeholder="Teléfono"><br>
+            <button type="submit">Guardar</button>
+        </form>
+
+        <h2>Diseño para Mostrar la Tabla</h2>
+        <table class="crud-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="crudTableBody">
+                <!-- Las filas se llenarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchData();
+        });
+
+        function fetchData() {
+            fetch('/api/empleados')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('crudTableBody');
+                    tableBody.innerHTML = '';
+                    data.forEach(empleado => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${empleado.ID}</td>
+                            <td>${empleado.Nombre}</td>
+                            <td>${empleado.Correo}</td>
+                            <td>${empleado.Direccion}</td>
+                            <td>${empleado.Telefono}</td>
+                            <td class="actions">
+                                <button onclick="editEmpleado(${empleado.ID})">✏️</button>
+                                <button onclick="deleteEmpleado(${empleado.ID})">🗑️</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+
+        document.getElementById('crudForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            fetch(`/api/empleados${data.id ? '/' + data.id : ''}`, {
+                method: data.id ? 'PUT' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+                fetchData();
+            });
+        });
+
+        function editEmpleado(id) {
+            fetch(`/api/empleados/${id}`)
+                .then(response => response.json())
+                .then(empleado => {
+                    document.getElementById('id').value = empleado.ID;
+                    document.getElementById('nombre').value = empleado.Nombre;
+                    document.getElementById('correo').value = empleado.Correo;
+                    document.getElementById('direccion').value = empleado.Direccion;
+                    document.getElementById('telefono').value = empleado.Telefono;
+                });
+        }
+
+        function deleteEmpleado(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este empleado?')) {
+                fetch(`/api/empleados/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    fetchData();
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+

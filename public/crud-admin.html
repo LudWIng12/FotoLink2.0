@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD Admin - FotoLink</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/crud.css">
+</head>
+<body>
+    <div class="crud-container">
+        <h2>Gestionar Administradores</h2>
+        <form id="crudForm" class="crud-form">
+            <input type="hidden" id="id" name="id">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required><br>
+            <input type="email" id="correo" name="correo" placeholder="Correo" required><br>
+            <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña"><br>
+            <button type="submit">Guardar</button>
+        </form>
+        <h2>Diseño para Mostrar la Tabla</h2>
+        <table class="crud-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="crudTableBody">
+                <!-- Las filas se llenarán dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchData();
+        });
+
+        function fetchData() {
+            fetch('/api/administradores')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('crudTableBody');
+                    tableBody.innerHTML = '';
+                    data.forEach(admin => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${admin.ID}</td>
+                            <td>${admin.Nombre}</td>
+                            <td>${admin.Correo}</td>
+                            <td>${admin.Rol}</td>
+                            <td class="actions">
+                                <button onclick="editAdmin(${admin.ID})">✏️</button>
+                                <button onclick="deleteAdmin(${admin.ID})">🗑️</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        document.getElementById('crudForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            const url = `/api/administradores${data.id ? '/' + data.id : ''}`;
+            const method = data.id ? 'PUT' : 'POST';
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+                fetchData();
+                document.getElementById('crudForm').reset();
+            })
+            .catch(error => console.error('Error saving data:', error));
+        });
+
+        function editAdmin(id) {
+            fetch(`/api/administradores/${id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(admin => {
+                    document.getElementById('id').value = admin.ID;
+                    document.getElementById('nombre').value = admin.Nombre;
+                    document.getElementById('correo').value = admin.Correo;
+                })
+                .catch(error => console.error('Error editing data:', error));
+        }
+
+
+        function deleteAdmin(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este administrador?')) {
+                fetch(`/api/administradores/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    fetchData();
+                })
+                .catch(error => console.error('Error deleting data:', error));
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+

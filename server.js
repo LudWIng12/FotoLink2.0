@@ -5,12 +5,22 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const connection = require('./db');
 
+// Import routes
+const adminRoutes = require('./routes/adminRoutes');
+const empleadoRoutes = require('./routes/empleadoRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes');
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
 // Servir archivos estáticos de la carpeta public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Use routes
+app.use('/api/administradores', adminRoutes);
+app.use('/api/empleados', empleadoRoutes);
+app.use('/api/usuarios', usuarioRoutes);
 
 // Ruta de Registro para Usuarios
 app.post('/register', async (req, res) => {
@@ -104,12 +114,21 @@ app.get('/usuario', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'usuario.html'));
 });
 
+// Rutas para CRUD
+app.get('/crud-admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'crud-admin.html'));
+});
+
+app.get('/crud-empleado', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'crud-empleado.html'));
+});
+
+app.get('/crud-usuario', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'crud-usuario.html'));
+});
+
 // Iniciar el servidor
 app.listen(3000, () => {
   console.log('Servidor corriendo en el puerto 3000');
 });
-
-
-
-
 
