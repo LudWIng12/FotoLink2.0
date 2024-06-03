@@ -18,6 +18,7 @@
 }
 
 .login-box input[type="email"],
+.login-box input[type="text"],
 .login-box input[type="password"],
 .login-box input[type="text"],
 .login-box input[type="submit"],
