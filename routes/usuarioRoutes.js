@@ -7,7 +7,7 @@ const router = express.Router();
 
 // CRUD Operations for Usuarios
 router.get('/', (req, res) => {
-  const query = `SELECT u.ID, u.Nombre, u.Correo, r.Nombre as Rol FROM Usuarios u JOIN Roles r ON u.ID_Rol = r.ID`;
+  const query = `SELECT u.ID, u.Nombre, u.Correo, u.Direccion, u.Telefono, r.Nombre as Rol FROM Usuarios u JOIN Roles r ON u.ID_Rol = r.ID`;
   connection.query(query, (err, results) => {
     if (err) {
       res.status(500).send('Error al obtener usuarios');
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  const query = `SELECT u.ID, u.Nombre, u.Correo, r.Nombre as Rol FROM Usuarios u JOIN Roles r ON u.ID_Rol = r.ID WHERE u.ID = ?`;
+  const query = `SELECT u.ID, u.Nombre, u.Correo, u.Direccion, u.Telefono, r.Nombre as Rol FROM Usuarios u JOIN Roles r ON u.ID_Rol = r.ID WHERE u.ID = ?`;
   connection.query(query, [id], (err, results) => {
     if (err) {
       res.status(500).send('Error al obtener el usuario');
@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { nombre, correo, contraseña, rol } = req.body;
+  const { nombre, correo, contraseña, direccion, telefono, rol } = req.body;
   const hashedPassword = await bcrypt.hash(contraseña, 10);
 
   const getRolIdQuery = 'SELECT ID FROM Roles WHERE Nombre = ?';
@@ -43,8 +43,8 @@ router.post('/', async (req, res) => {
     }
 
     const rolId = results[0].ID;
-    const query = `INSERT INTO Usuarios (Nombre, Correo, Contraseña, ID_Rol) VALUES (?, ?, ?, ?)`;
-    connection.query(query, [nombre, correo, hashedPassword, rolId], (err, results) => {
+    const query = `INSERT INTO Usuarios (Nombre, Correo, Contraseña, Direccion, Telefono, ID_Rol) VALUES (?, ?, ?, ?, ?, ?)`;
+    connection.query(query, [nombre, correo, hashedPassword, direccion, telefono, rolId], (err, results) => {
       if (err) {
         res.status(500).send('Error al crear el usuario');
       } else {
@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', (req, res) => {
   const { id } = req.params;
-  const { nombre, correo, rol } = req.body;
+  const { nombre, correo, direccion, telefono, rol } = req.body;
 
   const getRolIdQuery = 'SELECT ID FROM Roles WHERE Nombre = ?';
   connection.query(getRolIdQuery, [rol], (err, results) => {
@@ -66,8 +66,8 @@ router.put('/:id', (req, res) => {
     }
 
     const rolId = results[0].ID;
-    const query = `UPDATE Usuarios SET Nombre = ?, Correo = ?, ID_Rol = ? WHERE ID = ?`;
-    connection.query(query, [nombre, correo, rolId, id], (err, results) => {
+    const query = `UPDATE Usuarios SET Nombre = ?, Correo = ?, Direccion = ?, Telefono = ?, ID_Rol = ? WHERE ID = ?`;
+    connection.query(query, [nombre, correo, direccion, telefono, rolId, id], (err, results) => {
       if (err) {
         res.status(500).send('Error al actualizar el usuario');
       } else {
@@ -90,3 +90,5 @@ router.delete('/:id', (req, res) => {
 });
 
 module.exports = router;
+
+

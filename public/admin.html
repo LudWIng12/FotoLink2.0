@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="welcome">Bienvenido: "Nombre del Administrador"</div>
+        <div class="welcome">Bienvenido: <span id="admin-name">Cargando...</span></div>
         <div class="grid-container">
             <button class="button" onclick="window.location.href='/crud-admin'">Admins</button>
             <button class="button" onclick="window.location.href='/crud-empleado'">Empleados</button>
@@ -20,7 +20,18 @@
             <button class="button" onclick="window.location.href='/analitica'">Analitica</button>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/session')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('admin-name').innerText = data.userName;
+                })
+                .catch(error => {
+                    console.error('Error al obtener el nombre del administrador:', error);
+                    document.getElementById('admin-name').innerText = 'Error al cargar';
+                });
+        });
+    </script>
 </body>
 </html>
-
-

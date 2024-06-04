@@ -54,8 +54,8 @@
                             <td>${usuario.ID}</td>
                             <td>${usuario.Nombre}</td>
                             <td>${usuario.Correo}</td>
-                            <td>${usuario.Direccion}</td>
-                            <td>${usuario.Telefono}</td>
+                            <td>${usuario.Direccion || 'undefined'}</td>
+                            <td>${usuario.Telefono || 'undefined'}</td>
                             <td class="actions">
                                 <button onclick="editUsuario(${usuario.ID})">✏️</button>
                                 <button onclick="deleteUsuario(${usuario.ID})">🗑️</button>
@@ -113,3 +113,4 @@
     </script>
 </body>
 </html>
+

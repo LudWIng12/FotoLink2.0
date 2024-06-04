@@ -16,6 +16,13 @@
             <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required><br>
             <input type="text" id="direccion" name="direccion" placeholder="Dirección"><br>
             <input type="text" id="telefono" name="telefono" placeholder="Teléfono"><br>
+            <select id="rol" name="rol" required>
+                <option value="" disabled selected>Seleccione un rol</option>
+                <option value="Fotógrafo">Fotógrafo</option>
+                <option value="Camarógrafo">Camarógrafo</option>
+                <option value="Editor">Editor</option>
+                <option value="Luces">Luces</option>
+            </select><br>
             <button type="submit">Guardar</button>
         </form>
 
@@ -28,6 +35,7 @@
                     <th>Correo</th>
                     <th>Dirección</th>
                     <th>Teléfono</th>
+                    <th>Rol</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -56,6 +64,7 @@
                             <td>${empleado.Correo}</td>
                             <td>${empleado.Direccion}</td>
                             <td>${empleado.Telefono}</td>
+                            <td>${empleado.Rol}</td>
                             <td class="actions">
                                 <button onclick="editEmpleado(${empleado.ID})">✏️</button>
                                 <button onclick="deleteEmpleado(${empleado.ID})">🗑️</button>
@@ -95,6 +104,7 @@
                     document.getElementById('correo').value = empleado.Correo;
                     document.getElementById('direccion').value = empleado.Direccion;
                     document.getElementById('telefono').value = empleado.Telefono;
+                    document.getElementById('rol').value = empleado.Rol;
                 });
         }
 
@@ -113,4 +123,8 @@
     </script>
 </body>
 </html>
+
+
+
+
 

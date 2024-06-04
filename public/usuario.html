@@ -8,11 +8,24 @@
 </head>
 <body>
     <div class="container">
-        <div class="welcome">Bienvenido: "Nombre del Usuario"</div>
+        <div class="welcome">Bienvenido: <span id="usuario-name">Cargando...</span></div>
         <div class="grid-container">
             <button class="button" onclick="window.location.href='/ordenes'">Ordenes</button>
             <button class="button" onclick="window.location.href='/facturacion'">Facturacion</button>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/session')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('usuario-name').innerText = data.userName;
+                })
+                .catch(error => {
+                    console.error('Error al obtener el nombre del usuario:', error);
+                    document.getElementById('usuario-name').innerText = 'Error al cargar';
+                });
+        });
+    </script>
 </body>
 </html>

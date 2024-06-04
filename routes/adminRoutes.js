@@ -1,4 +1,3 @@
-// routes/adminRoutes.js
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const connection = require('../db');
@@ -29,8 +28,6 @@ router.get('/:id', (req, res) => {
     });
 });
 
-
-
 router.post('/', async (req, res) => {
     const { nombre, correo, contraseña } = req.body;
     const hashedPassword = await bcrypt.hash(contraseña, 10);
@@ -51,7 +48,11 @@ router.post('/', async (req, res) => {
         const query = `INSERT INTO Administradores (Nombre, Correo, Contraseña, ID_Rol) VALUES (?, ?, ?, ?)`;
         connection.query(query, [nombre, correo, hashedPassword, rolId], (err, results) => {
             if (err) {
-                res.status(500).send('Error al crear el administrador');
+                if (err.sqlState === '45000') {
+                    res.status(400).send(err.sqlMessage); // El mensaje personalizado del trigger
+                } else {
+                    res.status(500).send('Error al crear el administrador');
+                }
             } else {
                 res.json({ message: 'Administrador creado exitosamente' });
             }
@@ -75,7 +76,11 @@ router.put('/:id', async (req, res) => {
 
     connection.query(query, queryParams, (err, results) => {
         if (err) {
-            res.status(500).send('Error al actualizar el administrador');
+            if (err.sqlState === '45000') {
+                res.status(400).send(err.sqlMessage); // El mensaje personalizado del trigger
+            } else {
+                res.status(500).send('Error al actualizar el administrador');
+            }
         } else {
             res.json({ message: 'Administrador actualizado exitosamente' });
         }
