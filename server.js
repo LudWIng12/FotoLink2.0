@@ -12,6 +12,7 @@ const empleadoRoutes = require('./routes/empleadoRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const serviciosRoutes = require('./routes/serviciosRoutes');
 const ordenesRoutes = require('./routes/ordenesRoutes');
+const rolesRoutes = require('./routes/rolesRoutes');
 
 const app = express();
 app.use(bodyParser.json());
@@ -33,6 +34,7 @@ app.use('/api/empleados', empleadoRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/servicios', serviciosRoutes);
 app.use('/api/ordenes', ordenesRoutes);
+app.use('/api/roles', rolesRoutes);
 
 // Ruta de Registro para Usuarios
 app.post('/register', async (req, res) => {
@@ -193,6 +195,10 @@ app.get('/ordenes', (req, res) => {
 app.listen(3000, () => {
   console.log('Servidor corriendo en el puerto 3000');
 });
+
+
+
+
 
 
 

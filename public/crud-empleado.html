@@ -16,17 +16,16 @@
             <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required><br>
             <input type="text" id="direccion" name="direccion" placeholder="Dirección"><br>
             <input type="text" id="telefono" name="telefono" placeholder="Teléfono"><br>
-            <select id="rol" name="rol" required>
-                <option value="" disabled selected>Seleccione un rol</option>
-                <option value="Fotógrafo">Fotógrafo</option>
-                <option value="Camarógrafo">Camarógrafo</option>
-                <option value="Editor">Editor</option>
-                <option value="Luces">Luces</option>
+            <select id="rol" name="rol" multiple required>
+                <option value="4">Fotógrafo</option>
+                <option value="5">Camarógrafo</option>
+                <option value="6">Editor</option>
+                <option value="7">Luces</option>
             </select><br>
             <button type="submit">Guardar</button>
         </form>
 
-        <h2>Diseño para Mostrar la Tabla</h2>
+        <h2>Lista de Empleados</h2>
         <table class="crud-table">
             <thead>
                 <tr>
@@ -35,7 +34,7 @@
                     <th>Correo</th>
                     <th>Dirección</th>
                     <th>Teléfono</th>
-                    <th>Rol</th>
+                    <th>Roles</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -64,7 +63,7 @@
                             <td>${empleado.Correo}</td>
                             <td>${empleado.Direccion}</td>
                             <td>${empleado.Telefono}</td>
-                            <td>${empleado.Rol}</td>
+                            <td>${empleado.Roles}</td>
                             <td class="actions">
                                 <button onclick="editEmpleado(${empleado.ID})">✏️</button>
                                 <button onclick="deleteEmpleado(${empleado.ID})">🗑️</button>
@@ -80,6 +79,8 @@
             const formData = new FormData(this);
             const data = {};
             formData.forEach((value, key) => data[key] = value);
+
+            data.rol = Array.from(document.getElementById('rol').selectedOptions).map(option => option.value).join(',');
 
             fetch(`/api/empleados${data.id ? '/' + data.id : ''}`, {
                 method: data.id ? 'PUT' : 'POST',
@@ -104,7 +105,14 @@
                     document.getElementById('correo').value = empleado.Correo;
                     document.getElementById('direccion').value = empleado.Direccion;
                     document.getElementById('telefono').value = empleado.Telefono;
-                    document.getElementById('rol').value = empleado.Rol;
+
+                    const roles = empleado.Roles.split(',');
+                    const rolSelect = document.getElementById('rol');
+                    Array.from(rolSelect.options).forEach(option => {
+                        if (roles.includes(option.text)) {
+                            option.selected = true;
+                        }
+                    });
                 });
         }
 

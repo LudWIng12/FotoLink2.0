@@ -1,0 +1,58 @@
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.accordion:hover {
+    background-color: #ccc;
+}
+
+.accordion:after {
+    content: '\002B'; /* Unicode character for "plus" sign (+) */
+    font-size: 18px;
+    float: right;
+}
+
+.accordion.active:after {
+    content: "\2212"; /* Unicode character for "minus" sign (−) */
+}
+
+.panel {
+    padding: 0 18px;
+    display: none;
+    background-color: white;
+    overflow: hidden;
+}
+
+.crud-form {
+    margin-bottom: 20px;
+}
+
+.crud-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.crud-table th, .crud-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.crud-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
