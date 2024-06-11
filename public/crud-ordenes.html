@@ -18,6 +18,9 @@
                 <input type="text" id="nombreServicio" name="nombre" placeholder="Nombre del Servicio" required><br>
                 <textarea id="descripcionServicio" name="descripcion" placeholder="Descripción del Servicio"></textarea><br>
                 <input type="number" step="0.01" id="precioServicio" name="precio" placeholder="Precio" required><br>
+                <select id="roles" name="roles" multiple required>
+                    <!-- Las opciones de roles se llenarán dinámicamente -->
+                </select><br>
                 <button type="submit">Guardar</button>
             </form>
             <h2>Lista de Servicios</h2>
@@ -28,6 +31,7 @@
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Precio</th>
+                        <th>Roles</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -47,7 +51,9 @@
                 <input type="date" id="fechaTrabajo" name="fechaTrabajo" required><br>
                 <input type="date" id="fechaEntrega" name="fechaEntrega" required><br>
                 <div id="map" style="height: 200px;"></div><br>
-                <input type="hidden" id="ubicacion" name="ubicacion" required>
+                <input type="hidden" id="direccion" name="direccion" required>
+                <input type="hidden" id="latitud" name="latitud" required>
+                <input type="hidden" id="longitud" name="longitud" required>
                 <input type="number" step="0.01" id="total" name="total" placeholder="Total" required><br>
                 <input type="number" step="0.01" id="saldo" name="saldo" placeholder="Saldo" required><br>
                 <select id="estadoOrden" name="estadoOrden" required>
@@ -80,7 +86,9 @@
                         <th>Fecha de Pedido</th>
                         <th>Fecha de Trabajo</th>
                         <th>Fecha de Entrega</th>
-                        <th>Ubicación</th>
+                        <th>Dirección</th>
+                        <th>Latitud</th>
+                        <th>Longitud</th>
                         <th>Total</th>
                         <th>Saldo</th>
                         <th>Estado de Orden</th>

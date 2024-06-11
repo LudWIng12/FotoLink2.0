@@ -1,11 +1,26 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
 .container {
     width: 90%;
     margin: 0 auto;
+    padding: 20px;
 }
 
+h2 {
+    color: #fff;
+}
+
+/* Accordion Styles */
 .accordion {
-    background-color: #eee;
-    color: #444;
+    background-color: #333;
+    color: #fff;
     cursor: pointer;
     padding: 10px;
     width: 100%;
@@ -18,7 +33,7 @@
 }
 
 .accordion:hover {
-    background-color: #ccc;
+    background-color: #444;
 }
 
 .accordion:after {
@@ -31,28 +46,77 @@
     content: "\2212"; /* Unicode character for "minus" sign (−) */
 }
 
+/* Panel Styles */
 .panel {
     padding: 0 18px;
     display: none;
-    background-color: white;
+    background-color: #2c2c2c;
     overflow: hidden;
+    margin-top: 5px;
+    border-radius: 5px;
 }
 
 .crud-form {
     margin-bottom: 20px;
 }
 
+.crud-form input, .crud-form textarea, .crud-form select, .crud-form button {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.crud-form input, .crud-form textarea, .crud-form select {
+    background-color: #444;
+    color: #fff;
+}
+
+.crud-form button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.crud-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Table Styles */
 .crud-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .crud-table th, .crud-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 1px solid #444;
+    padding: 12px;
+    text-align: left;
 }
 
 .crud-table th {
-    background-color: #f2f2f2;
-    text-align: left;
+    background-color: #444;
+    color: #fff;
+}
+
+.crud-table tr:nth-child(even) {
+    background-color: #2c2c2c;
+}
+
+.crud-table tr:hover {
+    background-color: #444;
+}
+
+.actions button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.actions button:hover {
+    color: #007bff;
 }
