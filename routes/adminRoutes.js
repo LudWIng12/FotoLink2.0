@@ -5,7 +5,7 @@ const connection = require('../db');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    const query = `SELECT a.ID, a.Nombre, a.Correo, r.Nombre as Rol FROM Administradores a JOIN Roles r ON a.ID_Rol = r.ID`;
+    const query = `SELECT a.ID, a.Nombre, a.Correo, a.Direccion, a.Latitud, a.Longitud, r.Nombre as Rol FROM Administradores a JOIN Roles r ON a.ID_Rol = r.ID`;
     connection.query(query, (err, results) => {
         if (err) {
             return res.status(500).json({ message: 'Error al obtener administradores' });
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    const query = `SELECT a.ID, a.Nombre, a.Correo, r.Nombre as Rol FROM Administradores a JOIN Roles r ON a.ID_Rol = r.ID WHERE a.ID = ?`;
+    const query = `SELECT a.ID, a.Nombre, a.Correo, a.Direccion, a.Latitud, a.Longitud, r.Nombre as Rol FROM Administradores a JOIN Roles r ON a.ID_Rol = r.ID WHERE a.ID = ?`;
     connection.query(query, [id], (err, results) => {
         if (err) {
             return res.status(500).json({ message: 'Error al obtener el administrador' });
@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { nombre, correo, contraseña } = req.body;
+    const { nombre, correo, contraseña, direccion, latitud, longitud } = req.body;
     const hashedPassword = await bcrypt.hash(contraseña, 10);
 
     const getRolIdQuery = 'SELECT ID FROM Roles WHERE Nombre = "Administrador"';
@@ -45,8 +45,8 @@ router.post('/', async (req, res) => {
         }
 
         const rolId = results[0].ID;
-        const query = `INSERT INTO Administradores (Nombre, Correo, Contraseña, ID_Rol) VALUES (?, ?, ?, ?)`;
-        connection.query(query, [nombre, correo, hashedPassword, rolId], (err, results) => {
+        const query = `INSERT INTO Administradores (Nombre, Correo, Contraseña, Direccion, Latitud, Longitud, ID_Rol) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        connection.query(query, [nombre, correo, hashedPassword, direccion, latitud, longitud, rolId], (err, results) => {
             if (err) {
                 if (err.sqlState === '45000') {
                     res.status(400).send(err.sqlMessage); // El mensaje personalizado del trigger
@@ -62,16 +62,16 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { nombre, correo, contraseña } = req.body;
+    const { nombre, correo, contraseña, direccion, latitud, longitud } = req.body;
     let query, queryParams;
 
     if (contraseña) {
         const hashedPassword = await bcrypt.hash(contraseña, 10);
-        query = `UPDATE Administradores SET Nombre = ?, Correo = ?, Contraseña = ? WHERE ID = ?`;
-        queryParams = [nombre, correo, hashedPassword, id];
+        query = `UPDATE Administradores SET Nombre = ?, Correo = ?, Contraseña = ?, Direccion = ?, Latitud = ?, Longitud = ? WHERE ID = ?`;
+        queryParams = [nombre, correo, hashedPassword, direccion, latitud, longitud, id];
     } else {
-        query = `UPDATE Administradores SET Nombre = ?, Correo = ? WHERE ID = ?`;
-        queryParams = [nombre, correo, id];
+        query = `UPDATE Administradores SET Nombre = ?, Correo = ?, Direccion = ?, Latitud = ?, Longitud = ? WHERE ID = ?`;
+        queryParams = [nombre, correo, direccion, latitud, longitud, id];
     }
 
     connection.query(query, queryParams, (err, results) => {

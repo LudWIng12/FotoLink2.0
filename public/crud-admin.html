@@ -5,6 +5,10 @@
     <title>CRUD Admin - FotoLink</title>
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/crud.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; width: 100%; margin-bottom: 20px; }
+    </style>
 </head>
 <body>
     <div class="crud-container">
@@ -14,6 +18,8 @@
             <input type="text" id="nombre" name="nombre" placeholder="Nombre" required><br>
             <input type="email" id="correo" name="correo" placeholder="Correo" required><br>
             <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña"><br>
+            <input type="text" id="direccion" name="direccion" placeholder="Dirección" readonly><br>
+            <div id="map"></div><br>
             <button type="submit">Guardar</button>
         </form>
         <h2>Diseño para Mostrar la Tabla</h2>
@@ -24,6 +30,7 @@
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Rol</th>
+                    <th>Dirección</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -33,96 +40,10 @@
         </table>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchData();
-        });
-
-        function fetchData() {
-            fetch('/api/administradores')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('crudTableBody');
-                    tableBody.innerHTML = '';
-                    data.forEach(admin => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${admin.ID}</td>
-                            <td>${admin.Nombre}</td>
-                            <td>${admin.Correo}</td>
-                            <td>${admin.Rol}</td>
-                            <td class="actions">
-                                <button onclick="editAdmin(${admin.ID})">✏️</button>
-                                <button onclick="deleteAdmin(${admin.ID})">🗑️</button>
-                            </td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
-
-        document.getElementById('crudForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-
-            const url = `/api/administradores${data.id ? '/' + data.id : ''}`;
-            const method = data.id ? 'PUT' : 'POST';
-
-            fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                alert(result.message);
-                fetchData();
-                document.getElementById('crudForm').reset();
-            })
-            .catch(error => console.error('Error saving data:', error));
-        });
-
-        function editAdmin(id) {
-            fetch(`/api/administradores/${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(admin => {
-                    document.getElementById('id').value = admin.ID;
-                    document.getElementById('nombre').value = admin.Nombre;
-                    document.getElementById('correo').value = admin.Correo;
-                })
-                .catch(error => console.error('Error editing data:', error));
-        }
-
-
-        function deleteAdmin(id) {
-            if (confirm('¿Estás seguro de que deseas eliminar este administrador?')) {
-                fetch(`/api/administradores/${id}`, {
-                    method: 'DELETE'
-                })
-                .then(response => response.json())
-                .then(result => {
-                    alert(result.message);
-                    fetchData();
-                })
-                .catch(error => console.error('Error deleting data:', error));
-            }
-        }
-    </script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="scripts/admin.js"></script>
 </body>
 </html>
-
-
-
 
 
 

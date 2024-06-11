@@ -5,6 +5,10 @@
     <title>Registro y Login</title>
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; width: 100%; margin-bottom: 20px; }
+    </style>
 </head>
 <body>
     <div id="login-container" class="login-container">
@@ -26,7 +30,8 @@
                 <input type="text" name="nombre" placeholder="Nombre" required><br>
                 <input type="email" name="correo" placeholder="Correo" required><br>
                 <input type="password" name="contraseña" placeholder="Contraseña" required><br>
-                <input type="text" name="direccion" placeholder="Dirección"><br>
+                <input type="text" id="direccion" name="direccion" placeholder="Dirección"><br>
+                <div id="map"></div><br>
                 <input type="text" name="telefono" placeholder="Teléfono"><br>
                 <input type="submit" value="Registrar">
             </form>
@@ -40,71 +45,7 @@
         </div>
     </div>
 
-    <script>
-        function showRegisterForm() {
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('register-container').style.display = 'flex';
-        }
-
-        function showLoginForm() {
-            document.getElementById('register-container').style.display = 'none';
-            document.getElementById('success-container').style.display = 'none';
-            document.getElementById('login-container').style.display = 'flex';
-        }
-
-        document.getElementById('registerForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-
-            const response = await fetch('/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (response.ok) {
-                document.getElementById('register-container').style.display = 'none';
-                document.getElementById('success-container').style.display = 'flex';
-                setTimeout(showLoginForm, 2000); // Mostrar el formulario de login después de 2 segundos
-            } else {
-                alert('Error en el registro');
-            }
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-            if (result.user) {
-                const user = result.user;
-                if (user.ID_Rol === 1) {
-                    window.location.href = '/admin';
-                } else if (user.ID_Rol === 2) {
-                    window.location.href = '/empleado';
-                } else if (user.ID_Rol === 3) {
-                    window.location.href = '/usuario';
-                } else {
-                    alert(result.message);
-                }
-            } else {
-                alert('Error en el login');
-            }
-        });
-    </script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="scripts/login.js"></script>
 </body>
 </html>
